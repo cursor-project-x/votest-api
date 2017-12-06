@@ -4,17 +4,15 @@
   "description": "This is server side for Votest app",
   "main": "index.js",
   "scripts": {
+    "start": "webpack --config webpack.prod.js",
+    "dev": "webpack --display-error-details --config webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cursor-project-x/votest-api.git"
   },
-  "keywords": [
-    "express",
-    "babel",
-    "webpack"
-  ],
+  "keywords": ["express", "babel", "webpack"],
   "author": "",
   "license": "ISC",
   "bugs": {
