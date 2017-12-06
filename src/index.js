@@ -1,17 +1,33 @@
 import express from "express";
 import middlewaresConfig from "./config/middlewares";
+import pollRoutes from "./routes/pollRoutes.js";
+import http from 'http';
+import io from "./config/socket.js";
+import SocketIO from "socket.io";
 
 const app = express();
+const server = http.Server(app);
+const socket = new SocketIO(server);
+
+io(socket);
 
 middlewaresConfig(app);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!!!");
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  next();
 });
 
-app.listen(PORT, err => {
+app.use("/api", pollRoutes);
+
+server.listen(PORT, err => {
   if (err) {
     throw err;
   } else {
@@ -22,11 +38,3 @@ app.listen(PORT, err => {
     );
   }
 });
-
-if (process.env.NODE_ENV === "development") {
-  console.log("Welcome to development");
-}
-
-if (process.env.NODE_ENV === "production") {
-  console.log("Welcome to production");
-}
