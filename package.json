@@ -1,22 +1,18 @@
 {
-  "name": "votest-app-api",
-  "version": "0.1.0",
-  "description": "This is server side for Votest app",
+  "name": "votest-api",
+  "version": "0.0.1",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack --config ./webpack/webpack.prod.js",
-    "dev": "webpack --display-error-details --config ./webpack/webpack.dev.js",
+    "start:dev": "NODE_ENV=development DEBUG=app-* nodemon server/index.js",
+    "start": "nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cursor-project-x/votest-api.git"
   },
-  "keywords": [
-    "express",
-    "babel",
-    "webpack"
-  ],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -24,26 +20,16 @@
   },
   "homepage": "https://github.com/cursor-project-x/votest-api#readme",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.34",
-    "body-parser": "^1.18.2",
-    "compression": "^1.7.1",
+    "async": "^2.6.0",
+    "bluebird": "^3.5.1",
+    "cors": "^2.8.4",
+    "debug": "^3.1.0",
+    "dotenv": "^4.0.0",
     "express": "^4.16.2",
-    "firebase-admin": "^5.5.1",
-    "helmet": "^3.9.0",
-    "socket.io": "^2.0.4"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.0.0-beta.34",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.34",
-    "@babel/preset-env": "^7.0.0-beta.34",
-    "babel-loader": "^8.0.0-beta.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "clean-webpack-plugin": "^0.1.17",
-    "morgan": "^1.9.0",
-    "nodemon-webpack-plugin": "^0.1.5",
-    "uglifyjs-webpack-plugin": "^1.1.2",
-    "webpack": "^3.10.0",
-    "webpack-merge": "^4.1.1",
-    "webpack-node-externals": "^1.6.0"
+    "lodash": "^4.17.4",
+    "mongodb": "^3.0.0-rc0",
+    "mongoose": "^4.13.7",
+    "nodemon": "^1.13.3",
+    "ws": "^3.3.2"
   }
 }

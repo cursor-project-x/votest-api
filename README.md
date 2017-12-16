@@ -1,9 +1,18 @@
-# Votest App (API)
+# Votest API
 
-## Development setup & configuration
+http://votest.co/
 
-...
+## Development (local) environment
 
-## Production setup & configuration
+- Node.js v8 via [nvm](https://github.com/creationix/nvm)
+- `.env`
+- Yarn
+- `yarn start`
+- `yarn start:dev`
 
-...
+## Production (local) environment
+
+..
+
+## Todo(s)
+- mention about RESTfull approach
