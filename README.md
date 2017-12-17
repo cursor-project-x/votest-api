@@ -1,6 +1,6 @@
 # Votest API
 
-http://votest.co/
+http://votest.live/
 
 ## Development (local) environment
 

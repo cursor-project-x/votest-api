@@ -3,7 +3,7 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const _ = require('lodash');
 
-
+var Poll = require('../model/Poll').model;
 
 
 
@@ -15,13 +15,7 @@ const _ = require('lodash');
 mongoose.connect(process.env.MONGO_URL, { useMongoClient: true });
 mongoose.Promise = global.Promise;
 
-var Poll = mongoose.model('Poll', {
-  title: String,
-  type: String,
-  pin: String,
-  answers: Array,
-  votes: Array,
-});
+
 
 
 
@@ -48,7 +42,7 @@ router.get('/poll', (req, res) => {
     votes: []
   };
 
-  poll.pin = "82-94-22";
+  poll.pin = "11-11-11";
 
   var record = new Poll(poll);
 
@@ -74,7 +68,10 @@ router.get('/poll/:pin', (req, res) => {
   const pin = req.params.pin;
 
   Poll.findOne({ pin }, (err, poll) => {
-    return res.json({ poll });
+    const pollFormatted = _.pick(poll, 'title', 'type', 'pin');
+    pollFormatted.votesGrouped = Poll.groupVotes(poll);
+
+    return res.json({ poll: pollFormatted });
   });
 });
 
@@ -84,18 +81,24 @@ router.get('/poll/:pin/vote', (req, res) => {
   const pin = req.params.pin;
 
   Poll.findOne({ pin }, (err, poll) => {
+    if (err) {
+      console.log('err', err);
+      return res.json({});
+    }
+
     const answer = _.shuffle(poll.answers)[0];
 
     poll.votes.push(answer);
 
     poll.save((err) => {
+      wss.broadcast(JSON.stringify({
+        pin: pin,
+        votesGrouped: Poll.groupVotes(poll),
+      }));
+
       return res.json(answer);
     });
 
-    wss.broadcast(JSON.stringify({
-      pin: pin,
-      votes: poll.votes
-    }));
 
     // return res.json({ polls });
   });
@@ -132,7 +135,7 @@ wss.on('connection', function connection(ws) {
     console.log('received: %s', message);
   });
 
-  ws.send(JSON.stringify({test: 1}));
+  // ws.send(JSON.stringify({test: 1}));
 });
 
 // setInterval(function () {
